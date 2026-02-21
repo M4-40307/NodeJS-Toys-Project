@@ -1,0 +1,81 @@
+Project Summary: NodeJS & MongoDB Toys API
+
+This document summarizes the work done and provides instructions to get the project up and running.
+
+---
+
+I. What was implemented:
+
+A full Node.js API with Express.js and MongoDB (using Mongoose) has been created. The API includes:
+
+*   **Project Scaffolding:**
+    *   Initialized a new Node.js project (`package.json`).
+    *   Installed core dependencies (`express`, `mongoose`, `dotenv`, `bcrypt`, `jsonwebtoken`, `joi`, `cors`) and a development dependency (`nodemon`).
+    *   Created a structured directory layout: `db/`, `helpers/`, `middlewares/`, `models/`, `routes/`.
+    *   Configured `.gitignore` to exclude `node_modules/` and `.env`.
+    *   Created `app.js` as the main server entry point with basic setup and MongoDB connection.
+    *   Created `.env` file for environment variables (`PORT`, `MONGO_URI`, `JWT_SECRET`).
+    *   Added a `start` script to `package.json` to run the server with `nodemon`.
+
+*   **Database Models:**
+    *   `models/toy.js`: Defined the Mongoose schema for `Toy` with fields like `name`, `info`, `category`, `img_url`, `price`, and `user_id`, along with `timestamps`.
+    *   `models/user.js`: Defined the Mongoose schema for `User` with `name`, `email` (unique), `password` (hashed), and `role` (default 'USER'), along with `timestamps`.
+
+*   **User Authentication System:**
+    *   `helpers/user_validators.js`: Created Joi schemas for validating user registration and login data.
+    *   `routes/users.js`: Implemented API endpoints for:
+        *   `POST /users/register`: Registers a new user, hashes passwords using `bcrypt`, and checks for unique email addresses.
+        *   `POST /users/login`: Authenticates a user, compares hashed passwords, and issues a JSON Web Token (JWT) upon successful login.
+    *   `middlewares/auth.js`: Created a middleware function to verify JWTs from the `x-api-key` header, ensuring authenticated access to protected routes.
+
+*   **Toys API:**
+    *   `helpers/toy_validators.js`: Created a Joi schema for validating toy data during creation and updates.
+    *   `routes/toys.js`: Implemented comprehensive API endpoints for toy management:
+        *   `GET /toys`: Retrieves all toys, supporting pagination, searching by `name`/`info`, filtering by `category`, and filtering by price range (`min`/`max`) using query parameters. This also includes bonus feature of combining search and filter to a single route.
+        *   `GET /toys/single/:id`: Fetches a single toy by its unique ID.
+        *   `GET /toys/count`: Returns the total number of toys in the database.
+        *   `POST /toys`: Adds a new toy (protected route, requires authentication). The `user_id` is automatically linked from the authenticated user's token.
+        *   `PUT /toys/:id`: Updates an existing toy (protected route, requires authentication and ownership check).
+        *   `DELETE /toys/:id`: Deletes a toy (protected route, requires authentication and ownership check).
+
+*   **API Integration:**
+    *   All user and toy routes, along with the authentication middleware, have been seamlessly integrated into `app.js`.
+
+*   **Documentation:**
+    *   `README.md`: A detailed documentation file has been created, explaining how to set up the project, and providing comprehensive descriptions for each API endpoint (method, URL, parameters, request body examples, success/error responses, and required headers for protected routes).
+
+---
+
+II. What you need to do to make it work:
+
+1.  **Ensure MongoDB is Running:**
+    *   Make sure you have a MongoDB instance running, accessible at the `MONGO_URI` specified in your `.env` file (default: `mongodb://localhost:27017/toys_db`). If you're using a cloud MongoDB service (like MongoDB Atlas), update `MONGO_URI` accordingly.
+
+2.  **Navigate to the Project Directory:**
+    *   Open your terminal or command prompt and change your current directory to `C:\Users\Fadib\Desktop\NodeJS`.
+
+3.  **Install Dependencies:**
+    *   Run `npm install` to download and install all the required Node.js packages.
+
+4.  **Configure Environment Variables:**
+    *   Open the `.env` file in the project's root directory.
+    *   Verify `PORT` (default 3001), `MONGO_URI`, and most importantly, replace `JWT_SECRET=supersecretjwtkey` with a strong, unique secret key for JWT signing. **Do not use the default in production.**
+
+5.  **Start the Server:**
+    *   Execute `npm start` in your terminal. This will start the Node.js server using `nodemon`, which automatically restarts the server when code changes are detected.
+
+6.  **Test the API:**
+    *   Use a tool like Postman, Insomnia, or a web browser to send requests to the API endpoints as described in the `README.md` file.
+
+---
+
+III. GitHub and Sensitive Information:
+
+*   I have created the project files directly in your local directory (`C:\Users\Fadib\Desktop\NodeJS`).
+*   To share this project on GitHub:
+    1.  Initialize a Git repository: `git init`
+    2.  Add all files: `git add .`
+    3.  Commit your changes: `git commit -m "Initial commit of NodeJS Toys API"`
+    4.  Create a new repository on GitHub and link it to your local project.
+    5.  Push your code: `git push -u origin main` (or `master`, depending on your branch name).
+*   **Crucially**, the `.gitignore` file is configured to exclude `node_modules/` and your `.env` file. This means your sensitive `MONGO_URI` and `JWT_SECRET` will **NOT** be pushed to GitHub, which is a good security practice. You should always ensure that `.env` is not committed.

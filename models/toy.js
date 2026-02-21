@@ -21,7 +21,7 @@ const toySchema = new mongoose.Schema({
     },
     img_url: {
         type: String,
-        default: 'no_image.png' // Default image if not provided
+        default: 'no_image.png'
     },
     price: {
         type: Number,
@@ -29,10 +29,10 @@ const toySchema = new mongoose.Schema({
         min: 0
     },
     user_id: {
-        type: String, // Will store the ID of the user who added the toy
+        type: String, 
         required: true
     }
-}, { timestamps: true }); // Automatically adds createdAt and updatedAt fields
+}, { timestamps: true }); 
 
 const Toy = mongoose.model('Toy', toySchema);
 

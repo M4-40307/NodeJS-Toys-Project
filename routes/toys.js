@@ -6,12 +6,9 @@ const toySchemaJoi = require('../helpers/toy_validators');
 
 const LIMIT = 10;
 
-/* ===========================
-   GET ALL TOYS (PAGE STYLE)
-=========================== */
 router.get('/', async (req, res) => {
     try {
-        const page = parseInt(req.query.skip) || 1; // skip = page number
+        const page = parseInt(req.query.skip) || 1; 
         const skip = (page - 1) * LIMIT;
 
         const toys = await Toy.find()
@@ -24,9 +21,6 @@ router.get('/', async (req, res) => {
     }
 });
 
-/* ===========================
-   GET TOYS BY SEARCH
-=========================== */
 router.get('/search', async (req, res) => {
     try {
         const page = parseInt(req.query.skip) || 1;
@@ -52,9 +46,6 @@ router.get('/search', async (req, res) => {
     }
 });
 
-/* ===========================
-   GET TOYS BY CATEGORY
-=========================== */
 router.get('/category/:catname', async (req, res) => {
     try {
         const page = parseInt(req.query.skip) || 1;
@@ -70,9 +61,6 @@ router.get('/category/:catname', async (req, res) => {
     }
 });
 
-/* ===========================
-   GET TOYS BY PRICE RANGE
-=========================== */
 router.get('/prices', async (req, res) => {
     try {
         const page = parseInt(req.query.skip) || 1;
@@ -100,9 +88,6 @@ router.get('/prices', async (req, res) => {
     }
 });
 
-/* ===========================
-   GET SINGLE TOY
-=========================== */
 router.get('/single/:id', async (req, res) => {
     try {
         const toy = await Toy.findById(req.params.id);
@@ -113,9 +98,6 @@ router.get('/single/:id', async (req, res) => {
     }
 });
 
-/* ===========================
-   GET TOYS COUNT
-=========================== */
 router.get('/count', async (req, res) => {
     try {
         const count = await Toy.countDocuments();
@@ -125,9 +107,6 @@ router.get('/count', async (req, res) => {
     }
 });
 
-/* ===========================
-   POST NEW TOY (AUTH)
-=========================== */
 router.post('/', auth, async (req, res) => {
     try {
         const { error, value } = toySchemaJoi.validate(req.body);
@@ -146,9 +125,6 @@ router.post('/', auth, async (req, res) => {
     }
 });
 
-/* ===========================
-   PUT UPDATE TOY (AUTH + OWNER)
-=========================== */
 router.put('/:id', auth, async (req, res) => {
     try {
         const { error, value } = toySchemaJoi.validate(req.body);
@@ -171,9 +147,7 @@ router.put('/:id', auth, async (req, res) => {
     }
 });
 
-/* ===========================
-   DELETE TOY (AUTH + OWNER)
-=========================== */
+
 router.delete('/:id', auth, async (req, res) => {
     try {
         const toy = await Toy.findById(req.params.id);

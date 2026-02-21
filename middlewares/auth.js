@@ -1,19 +1,16 @@
 const jwt = require('jsonwebtoken');
 
 const auth = (req, res, next) => {
-    // Get token from header
     const token = req.header('x-api-key');
 
-    // Check if not token
     if (!token) {
         return res.status(401).json({ message: 'No token, authorization denied' });
     }
 
     try {
-        // Verify token
+ 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-        // Attach user from token to request object
         req.user = decoded;
         next();
     } catch (err) {

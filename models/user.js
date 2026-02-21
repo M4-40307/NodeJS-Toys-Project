@@ -10,22 +10,22 @@ const userSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true,
-        unique: true, // Ensure email is unique
+        unique: true, 
         minlength: 5,
         maxlength: 255
     },
     password: {
         type: String,
         required: true,
-        minlength: 6, // Minimum password length
-        maxlength: 1024 // Max length for hashed password
+        minlength: 6,
+        maxlength: 1024 
     },
     role: {
         type: String,
-        enum: ['USER', 'ADMIN'], // Only 'USER' or 'ADMIN' allowed
-        default: 'USER' // Default role is USER
+        enum: ['USER', 'ADMIN'], 
+        default: 'USER' 
     }
-}, { timestamps: true }); // Automatically adds createdAt and updatedAt fields
+}, { timestamps: true }); 
 
 const User = mongoose.model('User', userSchema);
 

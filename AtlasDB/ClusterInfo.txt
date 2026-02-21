@@ -1,2 +1,0 @@
-UserName: fadibox16_db_user
-Password: aNWqNSRQudQvAHI1
